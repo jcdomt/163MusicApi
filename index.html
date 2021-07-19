@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"></meta>
+    <title>网易云音乐API php版手册</title>
+</head>
+<body>
+    <h3 style="color: coral;">
+    <pre>
+        主体框架来自于binaryify大佬的<a href="https://binaryify.github.io/NeteaseCloudMusicApi/#/">NeteaseCloudMusicApi</a>
+        COOKIE传入：get(url编码)或post设置cookie参数均可（基本上所有API都可以传入COOKIE）
+        返回结果：若没有特殊说明，则为网易云服务器原始返回json
+    </pre>
+    </h3>
+    <div name="search" id="search">
+        <h1>搜索歌曲</h1>
+        <pre>
+            必选参数 : keyword : 关键词
+            可选参数 : limit : 返回数量 , 默认为 30 offset : 偏移数量，用于分页 , 如 : 如 :( 页数 -1)*30, 其中 30 为 limit 的值 , 默认为 0
+            type: 搜索类型；默认为 1 即单曲 , 取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合
+            接口地址 : /search/index.php
+            调用例子 : /search/index.php?keyword=你是人间四月天
+        </pre>
+    </div>
+    <div name="login" id="login">
+        <h1>登录账号</h1>
+        <h2>手机号登录</h2>
+        <pre>
+            必选参数 : phone : 手机号；password=密码（明文，需要url编码）
+            接口地址 : /login/phone.php
+            调用例子 : /login/phone.php?phone=1388888888&password=WhyWZJsoNB
+            返回结果 : 分为两部分：body为网易云服务器原始返回json；cookie为系统整理出的set-cookie，在需要cookie的请求中带上该cookie（post或get，记得url编码）即表示该账号
+            注意！系统已自动转发set-cookie(有巨大bug，详见/login/phone.php第15行)
+        </pre>
+    </div>
+    <div name="user" id="user">
+        <h1>用户操作</h1>
+        <h2>获取用户账号信息</h2>
+        <pre>
+            必选参数 : cookie : 登录得到的cookie
+            接口地址 : /user/account.php
+            调用例子 : /user/account.php?cookie=COOKIE
+        </pre>
+        <h2>获取用户信息 , 歌单，收藏，mv, dj 数量</h2>
+        <pre>
+            已经弃用
+        </pre>
+        <h2>获取用户歌单</h2>
+        <pre>
+            说明 : 传入用户 id, 可以获取用户歌单
+            必选参数 : 
+                cookie : 登录得到的cookie
+                uid : 用户 id
+            可选参数 :
+                limit : 返回数量 , 默认为 30
+                offset : 偏移数量，用于分页 , 如 :( 页数 -1)*30, 其中 30 为 limit 的值 , 默认为 0
+            接口地址 : /user/playlist.php
+            调用例子 : /user/playlist.php?cookie=COOKIE&uid=2120741314
+        </pre>
+    </div>
+    <div name="playlist" id="playlist">
+        <h1>歌单操作</h1>
+        <h2>获取歌单全部分类</h2>
+        <pre>
+            接口地址 : /playlist/catlist.php
+            调用例子 : /playlist/catlist.php
+        </pre>
+        <h2>获取歌单详情</h2>
+        <pre>
+            歌单能看到歌单名字, 但看不到具体歌单内容 , 调用此接口 , 传入歌单 id, 可 以获取对应歌单内的所有的音乐(未登录状态只能获取不完整的歌单,登录后是完整的)
+            必选参数 : id : 歌单ID
+            可选参数 : cookie : 登录后COOKIE
+            接口地址 : /playlist/detail.php
+            调用例子 : /playlist/detail.php?id=24381616
+        </pre>
+    </div>
+</body>
+</html>
